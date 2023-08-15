@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreAudio.Players
 {
-    internal abstract class UnixPlayerBase : IPlayer
+    internal abstract class UnixPlayerBase : IPlayer, IRecorder
     {
         private Process _process = null;
 
@@ -13,12 +13,26 @@ namespace NetCoreAudio.Players
         internal const string ResumeProcessCommand = "kill -CONT {0}";
 
         public event EventHandler PlaybackFinished;
+        public event EventHandler RecordingFinished;
 
         public bool Playing { get; private set; }
+        public bool Recording { get; private set; }
 
         public bool Paused { get; private set; }
 
         protected abstract string GetBashCommand(string fileName);
+
+        public async Task Record(string filePath)
+        {
+            await Stop();
+            var BashToolName = GetBashCommand(filePath);
+            _process = StartBashProcess($"{BashToolName} '{filePath}'");
+            _process.EnableRaisingEvents = true;
+            _process.Exited += HandleRecordingFinished;
+            _process.ErrorDataReceived += HandleRecordingFinished;
+            _process.Disposed += HandleRecordingFinished;
+            Recording = true;
+        }
 
         public async Task Play(string fileName)
         {
@@ -97,6 +111,14 @@ namespace NetCoreAudio.Players
             {
                 Playing = false;
                 PlaybackFinished?.Invoke(this, e);
+            }
+        }
+        internal void HandleRecordingFinished(object sender, EventArgs e)
+        {
+            if (Recording)
+            {
+                Recording = false;
+                RecordingFinished?.Invoke(this, e);
             }
         }
 

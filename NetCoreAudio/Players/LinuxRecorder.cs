@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreAudio.Players
 {
-    internal class LinuxPlayer : UnixPlayerBase, IRecorder
+    internal class LinuxRecorder : UnixPlayerBase, IRecorder
     {
         protected override string GetBashCommand(string fileName)
         {
@@ -15,7 +15,7 @@ namespace NetCoreAudio.Players
             }
             else
             {
-                return "aplay -q";
+                return "arecord -q";
             }
         }
 

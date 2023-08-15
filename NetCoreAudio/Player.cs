@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace NetCoreAudio
 {
+    /// <summary>
+    /// The main class to handle playing audio files.
+    /// </summary>
+    /// <seealso cref="NetCoreAudio.Interfaces.IPlayer" />
     public class Player : IPlayer
     {
         private readonly IPlayer _internalPlayer;
@@ -24,7 +28,10 @@ namespace NetCoreAudio
         /// Indicates that the audio playback is currently paused.
         /// </summary>
         public bool Paused => _internalPlayer.Paused;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <exception cref="System.Exception">No implementation exist for the current OS</exception>
         public Player()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
