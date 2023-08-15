@@ -2,7 +2,7 @@
 
 namespace NetCoreAudio.Utils
 {
-    internal static class FileUtil
+    internal static class FileUtilities
     {
         private const string TempDirName = "temp";
 
