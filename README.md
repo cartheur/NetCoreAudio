@@ -1,6 +1,6 @@
 # NetCoreAudio
 
-The library allows playback of audio files on .NET Core on any operating system with minimal dependencies
+The library allows playback of audio files on .NET Core on any operating system with minimal dependencies.
 
 ## Usage
 
@@ -9,6 +9,10 @@ The library exposes Player class, which detects the OS the library is running on
 ### MP3 Playback on linux
 
 The library relies on the mpg123 audio player for playback of .mp3 files on linux.
+
+### Recording on linux
+
+The library can record for any duration set for it. (Not implemented for Windows).
 
 ## Properties
 
